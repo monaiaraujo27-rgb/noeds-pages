@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checklist de Ativação — Noeds</title>
+<meta name="description" content="Configure sua operação comercial em poucos passos para começar a receber e converter leads." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Syne', 'sans-serif'],
+          body: ['DM Sans', 'sans-serif'],
+        },
+        colors: {
+          background: 'hsl(var(--background))',
+          foreground: 'hsl(var(--foreground))',
+          card: 'hsl(var(--card))',
+          border: 'hsl(var(--border))',
+          secondary: 'hsl(var(--secondary))',
+          muted: 'hsl(var(--muted))',
+          'muted-foreground': 'hsl(var(--muted-foreground))',
+          primary: 'hsl(var(--primary))',
+          'primary-foreground': 'hsl(var(--primary-foreground))',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root {
+    --background: 247 40% 17%;
+    --foreground: 0 0% 100%;
+    --card: 247 38% 14%;
+    --primary: 78 100% 65%;
+    --primary-foreground: 247 50% 12%;
+    --secondary: 247 35% 22%;
+    --muted: 247 35% 22%;
+    --muted-foreground: 247 20% 78%;
+    --border: 247 35% 28%;
+    --radius: .75rem;
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: hsl(var(--foreground));
+    background:
+      radial-gradient(circle at 12% 0%, hsl(258 50% 26% / .85), transparent 55%),
+      radial-gradient(circle at 100% 100%, hsl(270 55% 24% / .65), transparent 55%),
+      linear-gradient(180deg, #1e1a3d, #15123a);
+    background-attachment: fixed;
+    background-color: #15123a;
+  }
+  .step-card { transition: all .3s; }
+  .step-body { overflow: hidden; transition: max-height .4s cubic-bezier(0.4,0,0.2,1); max-height: 0; }
+  .step-body.open { max-height: 3000px; }
+  .chevron { transition: transform .3s; }
+  .chevron.open { transform: rotate(180deg); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fade-up { animation: fadeUp .5s ease; }
+  .video-frame-wrap { position: relative; padding-top: 56.25%; }
+  .video-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div class="max-w-[1320px] mx-auto px-8 max-md:px-5">
+
+  <header class="pt-8 pb-4 flex items-center gap-3">
+    <img src="assets/logo-noeds.jpeg" alt="Noeds" class="h-8 max-md:h-7 rounded" />
+    <span class="w-px h-5" style="background:hsl(var(--border))"></span>
+    <span class="font-display text-[11px] font-semibold tracking-[2px] uppercase text-muted-foreground">Onboarding</span>
+  </header>
+
+  <section class="pt-4 pb-8">
+    <h1 class="font-display font-extrabold leading-[1.1] text-white" style="font-size:clamp(28px,4vw,42px)">Checklist de ativação</h1>
+    <p class="text-sm text-muted-foreground max-w-[520px] mt-3">Configure sua operação comercial em poucos passos para começar a receber e converter leads.</p>
+  </section>
+
+  <section class="grid grid-cols-3 gap-4 max-lg:grid-cols-1 mb-6">
+    <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6 flex items-center gap-5">
+      <div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shrink-0" style="box-shadow:0 0 24px hsl(var(--primary)/0.35)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary-foreground))" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-1">
+          <span id="stat-count" class="font-display text-[28px] font-extrabold text-white">0</span>
+          <span class="text-sm text-muted-foreground">de 6</span>
+        </div>
+        <div class="text-xs text-muted-foreground mt-1">passos concluídos</div>
+      </div>
+    </div>
+
+    <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6 flex items-center gap-5">
+      <div class="relative w-14 h-14 shrink-0">
+        <svg viewBox="0 0 100 100" class="w-14 h-14 -rotate-90">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--secondary))" stroke-width="10" />
+          <circle id="ring-main" cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--primary))" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:263.9;stroke-dashoffset:263.9;transition:stroke-dashoffset .6s ease" />
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-1">
+          <span id="stat-pct" class="font-display text-[28px] font-extrabold text-white">0%</span>
+        </div>
+        <div class="text-xs text-muted-foreground mt-1">de ativação</div>
+      </div>
+    </div>
+
+    <button id="next-step-btn" class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6 flex items-center gap-5 text-left hover:border-primary/40 transition-colors">
+      <div class="w-14 h-14 rounded-2xl bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <div class="min-w-0 flex-1">
+        <div class="font-display text-[11px] font-semibold tracking-[1.5px] uppercase text-muted-foreground">Próximo passo</div>
+        <div id="next-step-title" class="font-display text-[16px] font-bold text-white truncate mt-0.5">—</div>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </section>
+
+  <section class="grid grid-cols-[1fr_360px] gap-6 max-lg:grid-cols-1 pb-8">
+
+    <div class="bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6">
+      <h2 class="font-display text-[18px] font-bold text-white mb-4">Passos para ativar seu CRM</h2>
+      <div id="steps-container"></div>
+      <div id="celebration" class="hidden bg-primary/[0.06] border border-primary/25 rounded-2xl p-8 text-center animate-fade-up mt-3">
+        <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center mx-auto mb-4" style="box-shadow:0 0 30px hsl(var(--primary)/0.35)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary-foreground))" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 class="font-display text-xl font-bold text-white">Estrutura <span class="text-primary">100% ativada!</span></h3>
+        <p class="text-sm text-muted-foreground mt-2">Seu Noeds CRM está pronto para receber e converter leads.</p>
+      </div>
+    </div>
+
+    <aside class="flex flex-col gap-4">
+      <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6">
+        <h3 class="font-display text-[13px] font-bold uppercase tracking-[1px] text-white mb-4">Progresso da ativação</h3>
+        <div class="flex items-center gap-4">
+          <div class="relative w-24 h-24 shrink-0">
+            <svg viewBox="0 0 100 100" class="w-24 h-24 -rotate-90">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--secondary))" stroke-width="8" />
+              <circle id="ring-aside" cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--primary))" stroke-width="8" stroke-linecap="round" style="stroke-dasharray:263.9;stroke-dashoffset:263.9;transition:stroke-dashoffset .6s ease" />
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span id="ring-aside-pct" class="font-display text-lg font-extrabold text-white">0%</span>
+            </div>
+          </div>
+          <div>
+            <div id="aside-count" class="text-sm text-white font-medium">0 de 6 passos concluídos</div>
+            <p class="text-xs text-muted-foreground mt-2">Complete todos os passos para ativar todo o potencial do CRM.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6">
+        <h3 class="font-display text-[13px] font-bold uppercase tracking-[1px] text-white mb-2">Precisa de ajuda?</h3>
+        <p class="text-xs text-muted-foreground mb-4">Nossa equipe está pronta para te ajudar em qualquer etapa.</p>
+        <a href="https://wa.me/SEUNUMEROAQUI?text=Preciso%20de%20suporte%20da%20Noeds"
+           target="_blank" rel="noopener noreferrer"
+           class="block w-full text-center bg-primary text-primary-foreground font-display text-xs font-bold uppercase py-3 rounded-[10px] transition-shadow hover:shadow-[0_0_16px_hsl(78,100%,65%,0.4)]">
+          Abrir suporte
+        </a>
+      </div>
+
+      <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6">
+        <h3 class="font-display text-[13px] font-bold uppercase tracking-[1px] text-white mb-2">Custos adicionais</h3>
+        <p class="text-xs text-muted-foreground mb-4">Algumas funcionalidades podem gerar custos externos, como integrações de WhatsApp, ligações e disparos.</p>
+        <a href="#" class="block w-full text-center bg-secondary border border-border text-white font-display text-xs font-bold uppercase py-3 rounded-[10px] transition-colors hover:border-primary hover:text-primary">
+          Ver artigo de custos
+        </a>
+      </div>
+    </aside>
+
+  </section>
+
+  <footer class="text-center py-8 text-xs font-light" style="color:hsl(var(--muted-foreground)/0.4)">
+    Noeds CRM — Todos os direitos reservados
+  </footer>
+
+</div>
+
+<script>
+const STEPS = [
+  {
+    id: "step-0", badge: "Passo 0", title: "Baixar o Noeds CRM",
+    tip: "Com o app no celular, você acompanha leads e responde conversas em tempo real, de qualquer lugar.",
+    tasks: [
+      "Escolha o dispositivo e clique no botão correspondente abaixo",
+      "Instalar o aplicativo ou programa",
+      "Fazer login com o usuário e senha recebidos por e-mail"
+    ],
+    type: "download", video: null
+  },
+  {
+    id: "step-1", badge: "Passo 1", title: "Configurações da empresa no CRM",
+    tip: null,
+    tasks: [
+      "Inserir nome da empresa e logo",
+      "Ajustar o idioma da plataforma para português",
+      "Adicionar endereço e telefone da empresa",
+      "Criar usuários da equipe e definir permissões"
+    ],
+    type: "default",
+    video: { label: "Assista: configurações iniciais do CRM", url: "https://vimeo.com/1180564230" }
+  },
+  {
+    id: "step-2", badge: "Passo 2", title: "Integrar Facebook e Instagram",
+    tip: "Antes de começar, certifique-se de que o seu Instagram já está vinculado à sua página do Facebook. Sem essa conexão, a integração não funcionará corretamente.",
+    tasks: [
+      "Conectar página do Facebook e Instagram",
+      "Ativar recebimento de leads via Lead Ads",
+      "Ativar DMs do Instagram e Facebook no CRM"
+    ],
+    type: "default",
+    video: { label: "Assista: integração Facebook e Instagram", url: "https://vimeo.com/1180580854" }
+  },
+  {
+    id: "step-3", badge: "Passo 3", title: "Conectar WhatsApp",
+    tip: null, tasks: [], type: "whatsapp", video: null
+  },
+  {
+    id: "step-4", badge: "Passo 4", title: "Criar o pipeline (funil comercial)",
+    tip: null,
+    tasks: [
+      "Criar o pipeline principal",
+      "Adicionar as etapas: Novo Lead → Tentativa de Contato → Contato Feito → Proposta Enviada → Negociação → Fechado / Perdido"
+    ],
+    type: "default",
+    video: { label: "Assista: criando o funil de vendas", url: "https://vimeo.com/1185618773" }
+  },
+  {
+    id: "step-5", badge: "Passo 5", title: "Automação de entrada de lead",
+    tip: "Os primeiros minutos após o lead entrar são críticos. Quanto mais rápido o contato, maior a taxa de conversão.",
+    tasks: [
+      "Configurar gatilho: lead chegou via anúncio",
+      "Criar contato automaticamente no CRM",
+      "Mover para o pipeline na etapa 'Novo Lead'",
+      "Enviar WhatsApp imediato de boas-vindas",
+      "Notificar o vendedor responsável"
+    ],
+    type: "default",
+    video: { label: "Assista: automação de entrada de lead", url: "https://vimeo.com/1187177105" }
+  },
+  {
+    id: "step-6", badge: "Passo 6", title: "Automação de follow-up automatizado",
+    tip: null,
+    tasks: ["Adaptar cadência de follow up automatizado para a sua empresa"],
+    type: "default",
+    video: { label: "Assista: configurando o follow-up automático", url: "https://vimeo.com/1187185426" }
+  }
+];
+
+const DOWNLOAD_LINKS = [
+  { group: "Celular", sub: "iOS", label: "iPhone — App Store", url: "https://apps.apple.com/br/app/wesales-crm/id6760725835" },
+  { group: "Celular", sub: "Android", label: "Android — Google Play", url: "https://play.google.com/store/apps/details?id=com.wesalescrm.meuapp&pcampaignid=web_share" },
+  { group: "Desktop", sub: "macOS", label: "Computador Apple", url: "#" },
+  { group: "Desktop", sub: "Windows", label: "Computador PC", url: "#" }
+];
+
+let done = new Set();
+try {
+  const raw = localStorage.getItem("checklist-done");
+  if (raw) done = new Set(JSON.parse(raw));
+} catch (e) { done = new Set(); }
+
+let openStepId = null;
+let openVideoIds = new Set();
+let whatsappChoice = null;
+
+function save() {
+  localStorage.setItem("checklist-done", JSON.stringify([...done]));
+}
+
+function getVimeoEmbedUrl(url) {
+  const m = url.match(/vimeo\.com\/(\d+)/);
+  return m ? `https://player.vimeo.com/video/${m[1]}?autoplay=1` : "";
+}
+
+function iconCheck() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+}
+function iconChevron() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+}
+function iconPlay() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="hsl(var(--primary-foreground))" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+}
+function iconDownload(kind) {
+  if (kind === "apple") return `<svg viewBox="0 0 384 512" class="w-[22px] h-[22px] fill-primary"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141 4 184.8 4 273.9c0 26.7 4.9 54.3 14.7 82.8 13.1 37.9 60.4 130.8 109.7 129.3 25.8-.6 44-18.3 77.5-18.3 32.5 0 49.3 18.3 77.5 18.3 49.7-.7 92.5-85.2 105-123.2-66.8-31.5-69.7-92.5-69.7-94.1zM251.1 71.2c26.9-31.9 24.4-61 23.6-71.2-23.7 1.4-51.1 16.4-66.9 34.9-17.4 20-27.6 44.8-25.5 71 25.6 2 48.8-11.1 68.8-34.7z"/></svg>`;
+  return `<svg viewBox="0 0 384 512" class="w-[22px] h-[22px] fill-primary"><path d="M192 0C86 0 0 86 0 192c0 106 86 192 192 192s192-86 192-192C384 86 298 0 192 0zm81.4 305.3H110.6c-8.8 0-16-7.2-16-16v-15.4c0-8.8 7.2-16 16-16h162.8c8.8 0 16 7.2 16 16v15.4c0 8.8-7.2 16-16 16zM192 96c53 0 96 43 96 96s-43 96-96 96-96-43-96-96 43-96 96-96z"/></svg>`;
+}
+
+function renderDownloadBlock() {
+  const groups = ["Celular", "Desktop"];
+  return groups.map(g => {
+    const items = DOWNLOAD_LINKS.filter(l => l.group === g);
+    return `
+      <div class="mb-4 last:mb-0">
+        <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2">${g}</div>
+        <div class="grid grid-cols-2 gap-2.5 max-md:grid-cols-1">
+          ${items.map(l => `
+            <a href="${l.url}" target="_blank" rel="noopener noreferrer"
+               class="border border-border bg-secondary rounded-[10px] p-4 flex items-center gap-3 hover:border-primary/25 hover:bg-primary/10 transition-all no-underline">
+              ${iconDownload(l.sub === "macOS" ? "apple" : "other")}
+              <div>
+                <small class="block text-[10px] text-muted-foreground">${l.label}</small>
+                <strong class="block text-[13px] font-medium text-foreground">${l.sub}</strong>
+              </div>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function videoBlock(videoId, label, url) {
+  const isOpen = openVideoIds.has(videoId);
+  return `
+    <div class="mt-3">
+      <div class="video-toggle flex items-center gap-3 bg-secondary border border-dashed border-primary/20 rounded-[10px] p-3.5 cursor-pointer hover:bg-primary/10 hover:border-primary transition-colors" data-video-id="${videoId}">
+        <div class="w-[38px] h-[38px] rounded-full bg-primary flex items-center justify-center shrink-0 transition-transform hover:scale-105" style="${isOpen ? 'box-shadow:0 0 14px hsl(var(--primary)/0.4)' : ''}">
+          ${iconPlay()}
+        </div>
+        <div>
+          <div class="text-[13px] font-medium text-foreground">${label}</div>
+          <div class="text-[11px] text-muted-foreground">${isOpen ? "Clique para fechar" : "Clique para assistir"}</div>
+        </div>
+      </div>
+      ${isOpen ? `
+        <div class="mt-2 rounded-[10px] overflow-hidden relative border border-border bg-card video-frame-wrap">
+          <iframe src="${getVimeoEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen frameborder="0"></iframe>
+        </div>
+      ` : ""}
+    </div>
+  `;
+}
+
+function renderWhatsappBlock() {
+  return `
+    <div>
+      <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2">1. Entenda a diferença antes de escolher</div>
+      ${videoBlock("wa-intro", "Oficial vs Não Oficial — qual escolher?", "https://vimeo.com/1180592366")}
+
+      <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2 mt-5">2. Escolha sua opção e siga a configuração</div>
+      <div class="grid grid-cols-2 gap-2.5 max-md:grid-cols-1">
+        <div class="wa-choice border rounded-[10px] p-4 cursor-pointer transition-colors ${whatsappChoice === "oficial" ? "border-primary bg-primary/10" : "border-border bg-secondary hover:border-primary/25 hover:bg-primary/10"}" data-choice="oficial">
+          <div class="font-display text-[11px] font-bold tracking-[1px] uppercase text-primary">Oficial</div>
+          <div class="text-[13px] text-muted-foreground mt-1">WhatsApp Business API oficial (Meta)</div>
+        </div>
+        <div class="wa-choice border rounded-[10px] p-4 cursor-pointer transition-colors ${whatsappChoice === "naooficial" ? "border-primary bg-primary/10" : "border-border bg-secondary hover:border-primary/25 hover:bg-primary/10"}" data-choice="naooficial">
+          <div class="font-display text-[11px] font-bold tracking-[1px] uppercase text-primary">Não Oficial</div>
+          <div class="text-[13px] text-muted-foreground mt-1">Conexão via QR Code, sem aprovação Meta</div>
+        </div>
+      </div>
+
+      ${whatsappChoice ? `
+        <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2 mt-5">3. Siga o passo a passo de configuração</div>
+        ${whatsappChoice === "oficial"
+          ? videoBlock("wa-oficial", "Configuração WhatsApp Oficial", "https://vimeo.com/1180641691")
+          : videoBlock("wa-naooficial", "Configuração WhatsApp Não Oficial", "https://vimeo.com/1180657148")}
+      ` : ""}
+    </div>
+  `;
+}
+
+function renderStep(step, index) {
+  const isDone = done.has(step.id);
+  const isOpen = openStepId === step.id;
+
+  let borderClass = "border-border";
+  if (isDone) borderClass = "border-primary/30";
+  if (isOpen) borderClass = "border-primary/40";
+
+  const cardStyle = isOpen ? "box-shadow:0 0 0 1px hsl(var(--primary)/0.10),0 8px 32px rgba(0,0,0,0.35)" : "";
+
+  return `
+    <div class="step-card rounded-2xl border ${borderClass} mb-3 overflow-hidden bg-card" style="${cardStyle}" data-step-id="${step.id}">
+      <div class="step-header flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-white/[0.03] transition-colors" data-step-id="${step.id}">
+        <button class="step-toggle-done w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-display text-sm font-bold transition-all ${isDone ? "bg-primary text-primary-foreground" : "bg-secondary border border-border text-primary"}" style="${isDone ? "box-shadow:0 0 14px hsl(var(--primary)/0.4)" : ""}" data-step-id="${step.id}">
+          ${isDone ? iconCheck() : index}
+        </button>
+        <div class="min-w-0 flex-1">
+          <div class="font-display text-[10px] font-bold tracking-[1.8px] uppercase text-primary">${step.badge}</div>
+          <div class="font-display text-[15px] font-semibold truncate ${isDone ? "line-through opacity-40" : ""}">${step.title}</div>
+        </div>
+        <div class="chevron ${isOpen ? "open" : ""} w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? "bg-primary/15 text-primary" : "text-muted-foreground"}">
+          ${iconChevron()}
+        </div>
+      </div>
+      <div class="step-body ${isOpen ? "open" : ""}">
+        <div class="border-t border-border p-5">
+          ${step.tip ? `<div class="bg-primary/[0.06] border border-primary/25 rounded-[10px] px-3.5 py-2.5 text-[13px] text-primary/85 mb-4"><strong>Atenção:</strong> ${step.tip}</div>` : ""}
+          ${step.tasks.length ? `
+            <div class="mb-1">
+              ${step.tasks.map(t => `
+                <div class="flex items-start gap-2.5 py-[7px] text-[13.5px] text-muted-foreground border-b border-white/[0.04] last:border-b-0">
+                  <span class="w-[5px] h-[5px] rounded-full bg-primary opacity-50 mt-[7px] shrink-0"></span>
+                  <span>${t}</span>
+                </div>
+              `).join("")}
+            </div>
+          ` : ""}
+          ${step.type === "download" ? renderDownloadBlock() : ""}
+          ${step.type === "whatsapp" ? renderWhatsappBlock() : ""}
+          ${step.type === "default" && step.video ? videoBlock(step.id + "-video", step.video.label, step.video.url) : ""}
+          <button class="step-mark-btn w-full mt-4 py-2.5 rounded-[10px] font-display text-xs font-bold uppercase transition-all ${isDone ? "bg-transparent border border-border text-muted-foreground" : "bg-primary/10 border border-primary/25 text-primary hover:bg-primary hover:text-primary-foreground"}" data-step-id="${step.id}">
+            ${isDone ? "Desmarcar etapa" : "Marcar como concluída"}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function progressSteps() {
+  return STEPS.filter(s => s.id !== "step-0");
+}
+
+function render() {
+  const container = document.getElementById("steps-container");
+  container.innerHTML = STEPS.map((s, i) => renderStep(s, i)).join("");
+
+  const pSteps = progressSteps();
+  const doneCount = pSteps.filter(s => done.has(s.id)).length;
+  const total = pSteps.length;
+  const pct = Math.round((doneCount / total) * 100);
+
+  document.getElementById("stat-count").textContent = doneCount;
+  document.getElementById("stat-pct").textContent = pct + "%";
+  document.getElementById("aside-count").textContent = `${doneCount} de ${total} passos concluídos`;
+  document.getElementById("ring-aside-pct").textContent = pct + "%";
+
+  const circumference = 2 * Math.PI * 42;
+  const offset = circumference - (pct / 100) * circumference;
+  document.getElementById("ring-main").style.strokeDashoffset = offset;
+  document.getElementById("ring-aside").style.strokeDashoffset = offset;
+
+  const nextStep = pSteps.find(s => !done.has(s.id));
+  const nextTitleEl = document.getElementById("next-step-title");
+  if (nextStep) {
+    nextTitleEl.textContent = nextStep.title;
+  } else {
+    nextTitleEl.textContent = "Tudo concluído!";
+  }
+
+  const celebration = document.getElementById("celebration");
+  if (doneCount === total) {
+    celebration.classList.remove("hidden");
+  } else {
+    celebration.classList.add("hidden");
+  }
+
+  attachEvents();
+}
+
+function attachEvents() {
+  document.querySelectorAll(".step-header").forEach(el => {
+    el.addEventListener("click", (e) => {
+      const id = el.dataset.stepId;
+      openStepId = openStepId === id ? null : id;
+      render();
+      if (openStepId) {
+        setTimeout(() => {
+          document.querySelector(`[data-step-id="${id}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 50);
+      }
+    });
+  });
+
+  document.querySelectorAll(".step-toggle-done").forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDone(el.dataset.stepId);
+    });
+  });
+
+  document.querySelectorAll(".step-mark-btn").forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDone(el.dataset.stepId);
+    });
+  });
+
+  document.querySelectorAll(".video-toggle").forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = el.dataset.videoId;
+      if (openVideoIds.has(id)) openVideoIds.delete(id);
+      else openVideoIds.add(id);
+      render();
+    });
+  });
+
+  document.querySelectorAll(".wa-choice").forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      whatsappChoice = el.dataset.choice;
+      render();
+    });
+  });
+}
+
+function goToNextStep() {
+  const pSteps = progressSteps();
+  const nextStep = pSteps.find(s => !done.has(s.id));
+  if (nextStep) {
+    openStepId = nextStep.id;
+    render();
+    setTimeout(() => {
+      document.querySelector(`[data-step-id="${nextStep.id}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
+  }
+}
+document.getElementById("next-step-btn").addEventListener("click", goToNextStep);
+
+function toggleDone(id) {
+  if (done.has(id)) done.delete(id);
+  else done.add(id);
+  save();
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
