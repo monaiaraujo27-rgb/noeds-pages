@@ -4,275 +4,700 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Checklist de Ativação — Noeds</title>
-<meta name="description" content="Configure sua operação comercial em poucos passos para começar a receber e converter leads." />
+<meta name="description" content="Ative sua operação comercial no Noeds CRM passo a passo." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          display: ['Syne', 'sans-serif'],
-          body: ['DM Sans', 'sans-serif'],
-        },
-        colors: {
-          background: 'hsl(var(--background))',
-          foreground: 'hsl(var(--foreground))',
-          card: 'hsl(var(--card))',
-          border: 'hsl(var(--border))',
-          secondary: 'hsl(var(--secondary))',
-          muted: 'hsl(var(--muted))',
-          'muted-foreground': 'hsl(var(--muted-foreground))',
-          primary: 'hsl(var(--primary))',
-          'primary-foreground': 'hsl(var(--primary-foreground))',
-        }
-      }
-    }
-  }
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --background: 247 40% 17%;
-    --foreground: 0 0% 100%;
-    --card: 247 38% 14%;
-    --primary: 78 100% 65%;
-    --primary-foreground: 247 50% 12%;
-    --secondary: 247 35% 22%;
-    --muted: 247 35% 22%;
-    --muted-foreground: 247 20% 78%;
-    --border: 247 35% 28%;
-    --radius: .75rem;
+    --background: #0b0b0b;
+    --card: #141414;
+    --card-2: #1a1a1a;
+    --border: #242424;
+    --border-soft: #1e1e1e;
+    --primary: #8aff45;
+    --primary-dim: rgba(138, 255, 69, 0.12);
+    --primary-foreground: #0b0b0b;
+    --foreground: #f0ecd8;
+    --muted-foreground: #8a8a82;
+    --radius: 12px;
   }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
   body {
-    font-family: 'DM Sans', sans-serif;
-    color: hsl(var(--foreground));
-    background:
-      radial-gradient(circle at 12% 0%, hsl(258 50% 26% / .85), transparent 55%),
-      radial-gradient(circle at 100% 100%, hsl(270 55% 24% / .65), transparent 55%),
-      linear-gradient(180deg, #1e1a3d, #15123a);
-    background-attachment: fixed;
-    background-color: #15123a;
+    margin: 0;
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
-  .step-card { transition: all .3s; }
-  .step-body { overflow: hidden; transition: max-height .4s cubic-bezier(0.4,0,0.2,1); max-height: 0; }
-  .step-body.open { max-height: 3000px; }
-  .chevron { transition: transform .3s; }
-  .chevron.open { transform: rotate(180deg); }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .animate-fade-up { animation: fadeUp .5s ease; }
-  .video-frame-wrap { position: relative; padding-top: 56.25%; }
-  .video-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .shell {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 28px 64px;
+  }
+
+  /* ---------- topo ---------- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 32px;
+  }
+  .topbar img { height: 34px; width: auto; border-radius: 7px; display: block; }
+  .topbar .divider { width: 1px; height: 22px; background: var(--border); }
+  .topbar .eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    line-height: 1.1;
+    margin: 0 0 10px;
+    color: var(--foreground);
+  }
+  .page-sub {
+    margin: 0 0 36px;
+    color: var(--muted-foreground);
+    max-width: 560px;
+    font-size: 14.5px;
+  }
+
+  /* ---------- layout duas colunas ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+  .layout > * { min-width: 0; }
+
+  /* ---------- coluna esquerda ---------- */
+  .rail {
+    position: sticky;
+    top: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 18px;
+  }
+
+  .progress-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .progress-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .progress-count {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+  .progress-count b { color: var(--primary); font-weight: 700; }
+
+  .progress-track {
+    height: 4px;
+    background: #202020;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    border-radius: 99px;
+    transition: width .45s cubic-bezier(.4,0,.2,1);
+  }
+
+  .rail-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .rail-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 11px;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    color: var(--muted-foreground);
+    transition: background .18s, border-color .18s, color .18s;
+  }
+  .rail-item:hover { background: #191919; color: var(--foreground); }
+  .rail-item.active {
+    background: var(--primary-dim);
+    border-color: rgba(138, 255, 69, 0.35);
+    color: var(--foreground);
+  }
+  .rail-item.done .rail-title { text-decoration: line-through; opacity: .45; }
+
+  .rail-dot {
+    flex-shrink: 0;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid #333;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px; font-weight: 600;
+    color: var(--muted-foreground);
+    transition: all .2s;
+  }
+  .rail-item.active .rail-dot { border-color: var(--primary); color: var(--primary); }
+  .rail-item.done .rail-dot {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+  .rail-title { font-size: 13.5px; font-weight: 500; line-height: 1.35; }
+
+  /* ---------- coluna direita ---------- */
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 34px 34px 28px;
+    min-height: 420px;
+  }
+
+  .panel-badge {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .panel-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin: 0 0 22px;
+    color: var(--foreground);
+  }
+
+  .notice {
+    display: flex; gap: 11px;
+    background: rgba(138, 255, 69, 0.06);
+    border: 1px solid rgba(138, 255, 69, 0.25);
+    border-radius: 10px;
+    padding: 13px 15px;
+    margin-bottom: 22px;
+    font-size: 13.2px;
+    line-height: 1.55;
+    color: rgba(240, 236, 216, 0.9);
+  }
+  .notice svg { flex-shrink: 0; margin-top: 1px; }
+  .notice b { color: var(--primary); font-weight: 600; }
+
+  .section-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin: 0 0 12px;
+  }
+
+  /* tarefas */
+  .tasks { display: flex; flex-direction: column; gap: 1px; margin-bottom: 26px; }
+  .task {
+    display: flex; align-items: flex-start; gap: 11px;
+    padding: 11px 2px;
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: opacity .18s;
+  }
+  .tasks .task:last-child { border-bottom: none; }
+  .task-box {
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid #383838;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .18s;
+  }
+  .task:hover .task-box { border-color: var(--primary); }
+  .task.checked .task-box { background: var(--primary); border-color: var(--primary); }
+  .task.checked .task-text { opacity: .42; text-decoration: line-through; }
+  .task-text { font-size: 13.8px; line-height: 1.55; color: rgba(240, 236, 216, 0.86); }
+
+  /* blocos de cartão (download / escolha api) */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .tile {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 15px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color .18s, background .18s;
+  }
+  .tile:hover { border-color: rgba(138, 255, 69, 0.4); background: #1d1d1d; }
+  .tile svg { flex-shrink: 0; }
+  .tile-sub {
+    display: block;
+    font-size: 10.5px;
+    color: var(--muted-foreground);
+    margin-bottom: 2px;
+  }
+  .tile-main {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--foreground);
+  }
+
+  .choice {
+    display: block;
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    transition: border-color .18s, background .18s;
+  }
+  .choice:hover { border-color: rgba(138, 255, 69, 0.4); }
+  .choice.selected {
+    border-color: var(--primary);
+    background: var(--primary-dim);
+  }
+  .choice-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 5px;
+  }
+  .choice-desc { font-size: 13px; color: var(--muted-foreground); line-height: 1.45; }
+
+  /* vídeo */
+  .video-bar {
+    display: flex; align-items: center; gap: 13px;
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+    cursor: pointer;
+    transition: border-color .18s, background .18s;
+  }
+  .video-bar:hover { border-color: rgba(138, 255, 69, 0.4); background: #1d1d1d; }
+  .video-play {
+    flex-shrink: 0;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-label { font-size: 13.5px; font-weight: 500; color: var(--foreground); }
+  .video-hint { font-size: 11.5px; color: var(--muted-foreground); margin-top: 1px; }
+  .video-frame {
+    position: relative;
+    padding-top: 56.25%;
+    margin-top: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  .block { margin-bottom: 26px; }
+  .block:last-of-type { margin-bottom: 0; }
+
+  /* rodapé do painel */
+  .panel-foot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    border-radius: 9px;
+    padding: 12px 20px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: opacity .18s, background .18s, border-color .18s, color .18s;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+  .btn-primary:hover { opacity: .86; }
+  .btn-ghost { background: transparent; color: var(--muted-foreground); border-color: var(--border); }
+  .btn-ghost:hover { color: var(--foreground); border-color: #3a3a3a; }
+  .btn-icon {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--muted-foreground);
+    padding: 12px 13px;
+    display: flex; align-items: center;
+  }
+  .btn-icon:hover:not(:disabled) { color: var(--foreground); border-color: #3a3a3a; }
+  .btn-icon:disabled { opacity: .3; cursor: not-allowed; }
+  .foot-spacer { flex: 1; }
+
+  /* estado concluído */
+  .done-banner {
+    display: none;
+    align-items: center;
+    gap: 14px;
+    background: rgba(138, 255, 69, 0.06);
+    border: 1px solid rgba(138, 255, 69, 0.3);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    animation: rise .45s ease;
+  }
+  .done-banner.show { display: flex; }
+  .done-banner .ring {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .done-banner h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px; font-weight: 600;
+    margin: 0 0 2px;
+    color: var(--foreground);
+  }
+  .done-banner p { margin: 0; font-size: 13px; color: var(--muted-foreground); }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- rodapé ---------- */
+  .support {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .support h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px; font-weight: 600;
+    margin: 0 0 3px; color: var(--foreground);
+  }
+  .support p { margin: 0; font-size: 13px; color: var(--muted-foreground); }
+  .support a {
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+
+  .site-foot {
+    text-align: center;
+    padding: 34px 0 0;
+    font-size: 11.5px;
+    color: #3d3d3a;
+  }
+
+  /* ---------- responsivo ---------- */
+  @media (max-width: 900px) {
+    .shell { padding: 24px 18px 48px; }
+    .layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .rail { position: static; padding: 18px 16px; overflow: hidden; }
+    .rail-list {
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+    .rail-item {
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      min-width: 74px;
+      padding: 11px 8px;
+      border: 1px solid var(--border);
+      background: var(--card-2);
+    }
+    .rail-title {
+      font-size: 10.5px;
+      text-align: center;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .panel { padding: 26px 20px 22px; }
+    .panel-title { font-size: 21px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .panel-foot { flex-wrap: wrap; }
+    .foot-spacer { display: none; }
+    .btn { flex: 1; text-align: center; justify-content: center; }
+  }
 </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-<div class="max-w-[1320px] mx-auto px-8 max-md:px-5">
+<div class="shell">
 
-  <header class="pt-8 pb-4 flex items-center gap-3">
-    <img src="assets/logo-noeds.jpeg" alt="Noeds" class="h-8 max-md:h-7 rounded" />
-    <span class="w-px h-5" style="background:hsl(var(--border))"></span>
-    <span class="font-display text-[11px] font-semibold tracking-[2px] uppercase text-muted-foreground">Onboarding</span>
-  </header>
+  <div class="topbar">
+    <img src="assets/logo-noeds.jpeg" alt="Noeds" />
+    <span class="divider"></span>
+    <span class="eyebrow">Onboarding</span>
+  </div>
 
-  <section class="pt-4 pb-8">
-    <h1 class="font-display font-extrabold leading-[1.1] text-white" style="font-size:clamp(28px,4vw,42px)">Checklist de ativação</h1>
-    <p class="text-sm text-muted-foreground max-w-[520px] mt-3">Configure sua operação comercial em poucos passos para começar a receber e converter leads.</p>
-  </section>
+  <h1 class="page-title">Checklist de ativação</h1>
+  <p class="page-sub">Siga os passos abaixo para deixar sua operação comercial rodando no Noeds CRM — do primeiro acesso ao acompanhamento de SLA.</p>
 
-  <section class="grid grid-cols-3 gap-4 max-lg:grid-cols-1 mb-6">
-    <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6 flex items-center gap-5">
-      <div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shrink-0" style="box-shadow:0 0 24px hsl(var(--primary)/0.35)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary-foreground))" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      </div>
-      <div>
-        <div class="flex items-baseline gap-1">
-          <span id="stat-count" class="font-display text-[28px] font-extrabold text-white">0</span>
-          <span class="text-sm text-muted-foreground">de 6</span>
-        </div>
-        <div class="text-xs text-muted-foreground mt-1">passos concluídos</div>
-      </div>
+  <div id="done-banner" class="done-banner">
+    <div class="ring">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0b0b0b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
-
-    <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6 flex items-center gap-5">
-      <div class="relative w-14 h-14 shrink-0">
-        <svg viewBox="0 0 100 100" class="w-14 h-14 -rotate-90">
-          <circle cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--secondary))" stroke-width="10" />
-          <circle id="ring-main" cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--primary))" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:263.9;stroke-dashoffset:263.9;transition:stroke-dashoffset .6s ease" />
-        </svg>
-      </div>
-      <div>
-        <div class="flex items-baseline gap-1">
-          <span id="stat-pct" class="font-display text-[28px] font-extrabold text-white">0%</span>
-        </div>
-        <div class="text-xs text-muted-foreground mt-1">de ativação</div>
-      </div>
+    <div>
+      <h3>Operação 100% ativada</h3>
+      <p>Todos os passos concluídos. Seu Noeds CRM está pronto para receber e converter leads.</p>
     </div>
+  </div>
 
-    <button id="next-step-btn" class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6 flex items-center gap-5 text-left hover:border-primary/40 transition-colors">
-      <div class="w-14 h-14 rounded-2xl bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      </div>
-      <div class="min-w-0 flex-1">
-        <div class="font-display text-[11px] font-semibold tracking-[1.5px] uppercase text-muted-foreground">Próximo passo</div>
-        <div id="next-step-title" class="font-display text-[16px] font-bold text-white truncate mt-0.5">—</div>
-      </div>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-    </button>
-  </section>
+  <div class="layout">
 
-  <section class="grid grid-cols-[1fr_360px] gap-6 max-lg:grid-cols-1 pb-8">
-
-    <div class="bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6">
-      <h2 class="font-display text-[18px] font-bold text-white mb-4">Passos para ativar seu CRM</h2>
-      <div id="steps-container"></div>
-      <div id="celebration" class="hidden bg-primary/[0.06] border border-primary/25 rounded-2xl p-8 text-center animate-fade-up mt-3">
-        <div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center mx-auto mb-4" style="box-shadow:0 0 30px hsl(var(--primary)/0.35)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary-foreground))" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h3 class="font-display text-xl font-bold text-white">Estrutura <span class="text-primary">100% ativada!</span></h3>
-        <p class="text-sm text-muted-foreground mt-2">Seu Noeds CRM está pronto para receber e converter leads.</p>
+    <nav class="rail">
+      <div class="progress-head">
+        <span class="progress-label">Progresso</span>
+        <span class="progress-count"><b id="rail-done">0</b> de <span id="rail-total">9</span></span>
       </div>
+      <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+      <div id="rail-list" class="rail-list"></div>
+    </nav>
+
+    <main class="panel">
+      <div id="panel-content"></div>
+
+      <div class="panel-foot">
+        <button id="btn-prev" class="btn btn-icon" aria-label="Passo anterior">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button id="btn-toggle" class="btn btn-primary">Marcar como concluída</button>
+        <span class="foot-spacer"></span>
+        <button id="btn-next" class="btn btn-ghost">Próximo passo</button>
+      </div>
+    </main>
+
+  </div>
+
+  <div class="support">
+    <div>
+      <h4>Precisa de ajuda?</h4>
+      <p>Nossa equipe acompanha você em qualquer etapa da ativação.</p>
     </div>
+    <a class="btn btn-primary" href="https://wa.me/5532987199347?text=Preciso%20de%20suporte%20da%20Noeds" target="_blank" rel="noopener noreferrer">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#0b0b0b"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.5.2-.7.2-1.4.2-1.5-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2z"/></svg>
+      Abrir suporte
+    </a>
+  </div>
 
-    <aside class="flex flex-col gap-4">
-      <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6">
-        <h3 class="font-display text-[13px] font-bold uppercase tracking-[1px] text-white mb-4">Progresso da ativação</h3>
-        <div class="flex items-center gap-4">
-          <div class="relative w-24 h-24 shrink-0">
-            <svg viewBox="0 0 100 100" class="w-24 h-24 -rotate-90">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--secondary))" stroke-width="8" />
-              <circle id="ring-aside" cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--primary))" stroke-width="8" stroke-linecap="round" style="stroke-dasharray:263.9;stroke-dashoffset:263.9;transition:stroke-dashoffset .6s ease" />
-            </svg>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <span id="ring-aside-pct" class="font-display text-lg font-extrabold text-white">0%</span>
-            </div>
-          </div>
-          <div>
-            <div id="aside-count" class="text-sm text-white font-medium">0 de 6 passos concluídos</div>
-            <p class="text-xs text-muted-foreground mt-2">Complete todos os passos para ativar todo o potencial do CRM.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6">
-        <h3 class="font-display text-[13px] font-bold uppercase tracking-[1px] text-white mb-2">Precisa de ajuda?</h3>
-        <p class="text-xs text-muted-foreground mb-4">Nossa equipe está pronta para te ajudar em qualquer etapa.</p>
-        <a href="https://wa.me/5532987199347?text=Preciso%20de%20suporte%20da%20Noeds"
-           target="_blank" rel="noopener noreferrer"
-           class="block w-full text-center bg-primary text-primary-foreground font-display text-xs font-bold uppercase py-3 rounded-[10px] transition-shadow hover:shadow-[0_0_16px_hsl(78,100%,65%,0.4)]">
-          Abrir suporte
-        </a>
-      </div>
-
-      <div class="bg-card/70 backdrop-blur-sm border border-border rounded-2xl p-6">
-        <h3 class="font-display text-[13px] font-bold uppercase tracking-[1px] text-white mb-2">Custos adicionais</h3>
-        <p class="text-xs text-muted-foreground mb-4">Algumas funcionalidades podem gerar custos externos, como integrações de WhatsApp, ligações e disparos.</p>
-        <a href="#" class="block w-full text-center bg-secondary border border-border text-white font-display text-xs font-bold uppercase py-3 rounded-[10px] transition-colors hover:border-primary hover:text-primary">
-          Ver artigo de custos
-        </a>
-      </div>
-    </aside>
-
-  </section>
-
-  <footer class="text-center py-8 text-xs font-light" style="color:hsl(var(--muted-foreground)/0.4)">
-    Noeds CRM — Todos os direitos reservados
-  </footer>
+  <div class="site-foot">Noeds CRM — Todos os direitos reservados</div>
 
 </div>
 
 <script>
+const STORAGE_KEY = "noeds-checklist-v2";
+
 const STEPS = [
   {
-    id: "step-0", badge: "Passo 0", title: "Baixar o Noeds CRM",
-    tip: "Com o app no celular, você acompanha leads e responde conversas em tempo real, de qualquer lugar.",
+    id: "baixar-app",
+    title: "Baixar Noeds CRM",
+    notice: "Com o app no celular você acompanha leads e responde conversas em tempo real, de qualquer lugar.",
     tasks: [
-      "Escolha o dispositivo e clique no botão correspondente abaixo",
+      "Escolher o dispositivo e baixar pelo botão correspondente",
       "Instalar o aplicativo ou programa",
       "Fazer login com o usuário e senha recebidos por e-mail"
     ],
-    type: "download", video: null
+    block: "download",
+    video: null
   },
   {
-    id: "step-1", badge: "Passo 1", title: "Configurações da empresa no CRM",
-    tip: null,
+    id: "config-empresa",
+    title: "Configurações da empresa no CRM",
+    notice: null,
     tasks: [
       "Inserir nome da empresa e logo",
       "Ajustar o idioma da plataforma para português",
       "Adicionar endereço e telefone da empresa",
       "Criar usuários da equipe e definir permissões"
     ],
-    type: "default",
+    block: null,
     video: { label: "Assista: configurações iniciais do CRM", url: "https://vimeo.com/1180564230" }
   },
   {
-    id: "step-2", badge: "Passo 2", title: "Integrar Facebook e Instagram",
-    tip: "Antes de começar, certifique-se de que o seu Instagram já está vinculado à sua página do Facebook. Sem essa conexão, a integração não funcionará corretamente.",
+    id: "meta",
+    title: "Integrar Facebook e Instagram",
+    notice: "Antes de começar, certifique-se de que o seu Instagram já está vinculado à sua página do Facebook. Sem essa conexão, a integração não funcionará corretamente.",
     tasks: [
       "Conectar página do Facebook e Instagram",
       "Ativar recebimento de leads via Lead Ads",
       "Ativar DMs do Instagram e Facebook no CRM"
     ],
-    type: "default",
+    block: null,
     video: { label: "Assista: integração Facebook e Instagram", url: "https://vimeo.com/1180580854" }
   },
   {
-    id: "step-3", badge: "Passo 3", title: "Conectar WhatsApp",
-    tip: null, tasks: [], type: "whatsapp", video: null
+    id: "google",
+    title: "Conectar Google Meu Negócio + Agenda",
+    notice: null,
+    tasks: [
+      "Conectar a conta do Google Meu Negócio ao CRM",
+      "Ativar o recebimento das mensagens do perfil dentro do CRM",
+      "Sincronizar a agenda do Google para agendamentos",
+      "Configurar a disponibilidade de horários de cada usuário"
+    ],
+    block: null,
+    video: null
   },
   {
-    id: "step-4", badge: "Passo 4", title: "Criar o pipeline (funil comercial)",
-    tip: null,
-    tasks: [
-      "Criar o pipeline principal",
-      "Adicionar as etapas: Novo Lead → Tentativa de Contato → Contato Feito → Proposta Enviada → Negociação → Fechado / Perdido"
-    ],
-    type: "default",
-    video: { label: "Assista: criando o funil de vendas", url: "https://vimeo.com/1185618773" }
+    id: "api-whatsapp",
+    title: "Diferença entre API Oficial e API Não Oficial",
+    notice: null,
+    tasks: [],
+    block: "api",
+    video: null
   },
   {
-    id: "step-5", badge: "Passo 5", title: "Automação de entrada de lead",
-    tip: "Os primeiros minutos após o lead entrar são críticos. Quanto mais rápido o contato, maior a taxa de conversão.",
+    id: "usar-crm",
+    title: "Como utilizar o CRM (conversas + leads)",
+    notice: null,
     tasks: [
-      "Configurar gatilho: lead chegou via anúncio",
-      "Criar contato automaticamente no CRM",
-      "Mover para o pipeline na etapa 'Novo Lead'",
-      "Enviar WhatsApp imediato de boas-vindas",
-      "Notificar o vendedor responsável"
+      "Navegar pela aba Conversas e centralizar todos os canais",
+      "Trabalhar os leads dentro do funil, movendo entre as etapas",
+      "Recuperação de base: reativar clientes antigos com campanhas",
+      "Usar tags para segmentar leads por origem, interesse e status",
+      "Aplicar estratégias de captação para alimentar o funil",
+      "Lançamentos internos: como usar o CRM em campanhas pontuais"
     ],
-    type: "default",
+    block: null,
+    video: null
+  },
+  {
+    id: "automacao-leads",
+    title: "Como funciona a Automação de novos Leads",
+    notice: "Os primeiros minutos após o lead entrar são críticos. Quanto mais rápido o contato, maior a taxa de conversão.",
+    tasks: [
+      "Configurar o gatilho de entrada: lead chegou via anúncio",
+      "Criar o contato automaticamente no CRM",
+      "Mover o lead para a primeira etapa do funil",
+      "Enviar mensagem imediata de boas-vindas no WhatsApp",
+      "Notificar o vendedor responsável pelo atendimento"
+    ],
+    block: null,
     video: { label: "Assista: automação de entrada de lead", url: "https://vimeo.com/1187177105" }
   },
   {
-    id: "step-6", badge: "Passo 6", title: "Automação de follow-up automatizado",
-    tip: null,
-    tasks: ["Adaptar cadência de follow up automatizado para a sua empresa"],
-    type: "default",
+    id: "follow-up",
+    title: "Automação de Follow Up",
+    notice: null,
+    tasks: [
+      "Adaptar a cadência de follow up para a realidade da sua empresa",
+      "Definir os intervalos entre cada tentativa de contato",
+      "Encerrar a cadência automaticamente quando o lead responder"
+    ],
+    block: null,
     video: { label: "Assista: configurando o follow-up automático", url: "https://vimeo.com/1187185426" }
+  },
+  {
+    id: "sla",
+    title: "Como configurar SLA",
+    notice: null,
+    tasks: [
+      "Definir o tempo-alvo de primeira resposta para cada canal",
+      "Criar a automação de alerta quando o prazo for estourado",
+      "Acompanhar o tempo de resposta por vendedor",
+      "Revisar os indicadores periodicamente com a equipe"
+    ],
+    block: null,
+    video: null
   }
 ];
 
 const DOWNLOAD_LINKS = [
-  { group: "Celular", sub: "iOS", label: "iPhone — App Store", url: "https://apps.apple.com/br/app/wesales-crm/id6760725835" },
-  { group: "Celular", sub: "Android", label: "Android — Google Play", url: "https://play.google.com/store/apps/details?id=com.wesalescrm.meuapp&pcampaignid=web_share" },
-  { group: "Desktop", sub: "macOS", label: "Computador Apple", url: "#" },
-  { group: "Desktop", sub: "Windows", label: "Computador PC", url: "#" }
+  { group: "Celular", sub: "iOS", label: "iPhone — App Store", icon: "apple", url: "https://apps.apple.com/br/app/wesales-crm/id6760725835" },
+  { group: "Celular", sub: "Android", label: "Google Play", icon: "android", url: "https://play.google.com/store/apps/details?id=com.wesalescrm.meuapp&pcampaignid=web_share" },
+  { group: "Desktop", sub: "macOS", label: "Computador Apple", icon: "apple", url: "#" },
+  { group: "Desktop", sub: "Windows", label: "Computador PC", icon: "windows", url: "#" }
 ];
 
+const API_VIDEOS = {
+  intro:   { label: "Oficial vs Não Oficial — qual escolher?", url: "https://vimeo.com/1180592366" },
+  oficial: { label: "Configuração WhatsApp Oficial", url: "https://vimeo.com/1180641691" },
+  nao:     { label: "Configuração WhatsApp Não Oficial", url: "https://vimeo.com/1180657148" }
+};
+
+/* ---------- estado ---------- */
 let done = new Set();
 try {
-  const raw = localStorage.getItem("checklist-done");
+  const raw = localStorage.getItem(STORAGE_KEY);
   if (raw) done = new Set(JSON.parse(raw));
 } catch (e) { done = new Set(); }
 
-let openStepId = null;
-let openVideoIds = new Set();
-let whatsappChoice = null;
+let activeStepId = (STEPS.find(s => !done.has(s.id)) || STEPS[0]).id;
+let openVideos = new Set();
+let apiChoice = null;
+let checkedTasks = new Set();
 
-function save() {
-  localStorage.setItem("checklist-done", JSON.stringify([...done]));
+function persist() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...done])); } catch (e) {}
+}
+
+function activeIndex() {
+  return STEPS.findIndex(s => s.id === activeStepId);
 }
 
 function getVimeoEmbedUrl(url) {
@@ -280,250 +705,208 @@ function getVimeoEmbedUrl(url) {
   return m ? `https://player.vimeo.com/video/${m[1]}?autoplay=1` : "";
 }
 
-function iconCheck() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-}
-function iconChevron() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
-}
-function iconPlay() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="hsl(var(--primary-foreground))" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-}
-function iconDownload(kind) {
-  if (kind === "apple") return `<svg viewBox="0 0 384 512" class="w-[22px] h-[22px] fill-primary"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141 4 184.8 4 273.9c0 26.7 4.9 54.3 14.7 82.8 13.1 37.9 60.4 130.8 109.7 129.3 25.8-.6 44-18.3 77.5-18.3 32.5 0 49.3 18.3 77.5 18.3 49.7-.7 92.5-85.2 105-123.2-66.8-31.5-69.7-92.5-69.7-94.1zM251.1 71.2c26.9-31.9 24.4-61 23.6-71.2-23.7 1.4-51.1 16.4-66.9 34.9-17.4 20-27.6 44.8-25.5 71 25.6 2 48.8-11.1 68.8-34.7z"/></svg>`;
-  return `<svg viewBox="0 0 384 512" class="w-[22px] h-[22px] fill-primary"><path d="M192 0C86 0 0 86 0 192c0 106 86 192 192 192s192-86 192-192C384 86 298 0 192 0zm81.4 305.3H110.6c-8.8 0-16-7.2-16-16v-15.4c0-8.8 7.2-16 16-16h162.8c8.8 0 16 7.2 16 16v15.4c0 8.8-7.2 16-16 16zM192 96c53 0 96 43 96 96s-43 96-96 96-96-43-96-96 43-96 96-96z"/></svg>`;
+function esc(str) {
+  return String(str).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
-function renderDownloadBlock() {
-  const groups = ["Celular", "Desktop"];
-  return groups.map(g => {
-    const items = DOWNLOAD_LINKS.filter(l => l.group === g);
-    return `
-      <div class="mb-4 last:mb-0">
-        <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2">${g}</div>
-        <div class="grid grid-cols-2 gap-2.5 max-md:grid-cols-1">
-          ${items.map(l => `
-            <a href="${l.url}" target="_blank" rel="noopener noreferrer"
-               class="border border-border bg-secondary rounded-[10px] p-4 flex items-center gap-3 hover:border-primary/25 hover:bg-primary/10 transition-all no-underline">
-              ${iconDownload(l.sub === "macOS" ? "apple" : "other")}
-              <div>
-                <small class="block text-[10px] text-muted-foreground">${l.label}</small>
-                <strong class="block text-[13px] font-medium text-foreground">${l.sub}</strong>
-              </div>
-            </a>
-          `).join("")}
-        </div>
-      </div>
-    `;
-  }).join("");
-}
+/* ---------- ícones ---------- */
+const ICONS = {
+  check: (c = "currentColor", s = 13) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+  play: `<svg width="12" height="12" viewBox="0 0 24 24" fill="#0b0b0b"><polygon points="6 3 20 12 6 21"/></svg>`,
+  alert: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8aff45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>`,
+  apple: `<svg width="19" height="19" viewBox="0 0 384 512" fill="#8aff45"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141 4 184.8 4 273.9c0 26.7 4.9 54.3 14.7 82.8 13.1 37.9 60.4 130.8 109.7 129.3 25.8-.6 44-18.3 77.5-18.3 32.5 0 49.3 18.3 77.5 18.3 49.7-.7 92.5-85.2 105-123.2-66.8-31.5-69.7-92.5-69.7-94.1zM251.1 71.2c26.9-31.9 24.4-61 23.6-71.2-23.7 1.4-51.1 16.4-66.9 34.9-17.4 20-27.6 44.8-25.5 71 25.6 2 48.8-11.1 68.8-34.7z"/></svg>`,
+  android: `<svg width="19" height="19" viewBox="0 0 512 512" fill="#8aff45"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>`,
+  windows: `<svg width="19" height="19" viewBox="0 0 448 512" fill="#8aff45"><path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>`,
+  arrowRight: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`
+};
 
-function videoBlock(videoId, label, url) {
-  const isOpen = openVideoIds.has(videoId);
+/* ---------- blocos ---------- */
+function videoBlock(key, label, url) {
+  const open = openVideos.has(key);
   return `
-    <div class="mt-3">
-      <div class="video-toggle flex items-center gap-3 bg-secondary border border-dashed border-primary/20 rounded-[10px] p-3.5 cursor-pointer hover:bg-primary/10 hover:border-primary transition-colors" data-video-id="${videoId}">
-        <div class="w-[38px] h-[38px] rounded-full bg-primary flex items-center justify-center shrink-0 transition-transform hover:scale-105" style="${isOpen ? 'box-shadow:0 0 14px hsl(var(--primary)/0.4)' : ''}">
-          ${iconPlay()}
-        </div>
+    <div class="block">
+      <div class="video-bar" data-video="${key}">
+        <div class="video-play">${ICONS.play}</div>
         <div>
-          <div class="text-[13px] font-medium text-foreground">${label}</div>
-          <div class="text-[11px] text-muted-foreground">${isOpen ? "Clique para fechar" : "Clique para assistir"}</div>
+          <div class="video-label">${esc(label)}</div>
+          <div class="video-hint">${open ? "Clique para fechar" : "Clique para assistir"}</div>
         </div>
       </div>
-      ${isOpen ? `
-        <div class="mt-2 rounded-[10px] overflow-hidden relative border border-border bg-card video-frame-wrap">
-          <iframe src="${getVimeoEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen frameborder="0"></iframe>
-        </div>
-      ` : ""}
-    </div>
-  `;
+      ${open ? `<div class="video-frame"><iframe src="${getVimeoEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>` : ""}
+    </div>`;
 }
 
-function renderWhatsappBlock() {
-  return `
-    <div>
-      <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2">1. Entenda a diferença antes de escolher</div>
-      ${videoBlock("wa-intro", "Oficial vs Não Oficial — qual escolher?", "https://vimeo.com/1180592366")}
-
-      <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2 mt-5">2. Escolha sua opção e siga a configuração</div>
-      <div class="grid grid-cols-2 gap-2.5 max-md:grid-cols-1">
-        <div class="wa-choice border rounded-[10px] p-4 cursor-pointer transition-colors ${whatsappChoice === "oficial" ? "border-primary bg-primary/10" : "border-border bg-secondary hover:border-primary/25 hover:bg-primary/10"}" data-choice="oficial">
-          <div class="font-display text-[11px] font-bold tracking-[1px] uppercase text-primary">Oficial</div>
-          <div class="text-[13px] text-muted-foreground mt-1">WhatsApp Business API oficial (Meta)</div>
-        </div>
-        <div class="wa-choice border rounded-[10px] p-4 cursor-pointer transition-colors ${whatsappChoice === "naooficial" ? "border-primary bg-primary/10" : "border-border bg-secondary hover:border-primary/25 hover:bg-primary/10"}" data-choice="naooficial">
-          <div class="font-display text-[11px] font-bold tracking-[1px] uppercase text-primary">Não Oficial</div>
-          <div class="text-[13px] text-muted-foreground mt-1">Conexão via QR Code, sem aprovação Meta</div>
-        </div>
+function downloadBlock() {
+  return ["Celular", "Desktop"].map(group => `
+    <div class="block">
+      <p class="section-label">${group}</p>
+      <div class="grid-2">
+        ${DOWNLOAD_LINKS.filter(l => l.group === group).map(l => `
+          <a class="tile" href="${l.url}" target="_blank" rel="noopener noreferrer">
+            ${ICONS[l.icon]}
+            <span>
+              <span class="tile-sub">${esc(l.label)}</span>
+              <span class="tile-main">${esc(l.sub)}</span>
+            </span>
+          </a>`).join("")}
       </div>
-
-      ${whatsappChoice ? `
-        <div class="font-display text-[10px] font-bold tracking-[1.5px] uppercase text-primary opacity-70 mb-2 mt-5">3. Siga o passo a passo de configuração</div>
-        ${whatsappChoice === "oficial"
-          ? videoBlock("wa-oficial", "Configuração WhatsApp Oficial", "https://vimeo.com/1180641691")
-          : videoBlock("wa-naooficial", "Configuração WhatsApp Não Oficial", "https://vimeo.com/1180657148")}
-      ` : ""}
-    </div>
-  `;
+    </div>`).join("");
 }
 
-function renderStep(step, index) {
-  const isDone = done.has(step.id);
-  const isOpen = openStepId === step.id;
-
-  let borderClass = "border-border";
-  if (isDone) borderClass = "border-primary/30";
-  if (isOpen) borderClass = "border-primary/40";
-
-  const cardStyle = isOpen ? "box-shadow:0 0 0 1px hsl(var(--primary)/0.10),0 8px 32px rgba(0,0,0,0.35)" : "";
-
+function apiBlock() {
   return `
-    <div class="step-card rounded-2xl border ${borderClass} mb-3 overflow-hidden bg-card" style="${cardStyle}" data-step-id="${step.id}">
-      <div class="step-header flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-white/[0.03] transition-colors" data-step-id="${step.id}">
-        <button class="step-toggle-done w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-display text-sm font-bold transition-all ${isDone ? "bg-primary text-primary-foreground" : "bg-secondary border border-border text-primary"}" style="${isDone ? "box-shadow:0 0 14px hsl(var(--primary)/0.4)" : ""}" data-step-id="${step.id}">
-          ${isDone ? iconCheck() : index}
+    <div class="block">
+      <p class="section-label">1. Entenda a diferença antes de escolher</p>
+      ${videoBlock("api-intro", API_VIDEOS.intro.label, API_VIDEOS.intro.url)}
+    </div>
+    <div class="block">
+      <p class="section-label">2. Escolha a sua opção</p>
+      <div class="grid-2">
+        <button class="choice ${apiChoice === "oficial" ? "selected" : ""}" data-choice="oficial">
+          <div class="choice-name">Oficial</div>
+          <div class="choice-desc">WhatsApp Business API oficial, aprovada pela Meta</div>
         </button>
-        <div class="min-w-0 flex-1">
-          <div class="font-display text-[10px] font-bold tracking-[1.8px] uppercase text-primary">${step.badge}</div>
-          <div class="font-display text-[15px] font-semibold truncate ${isDone ? "line-through opacity-40" : ""}">${step.title}</div>
-        </div>
-        <div class="chevron ${isOpen ? "open" : ""} w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? "bg-primary/15 text-primary" : "text-muted-foreground"}">
-          ${iconChevron()}
-        </div>
-      </div>
-      <div class="step-body ${isOpen ? "open" : ""}">
-        <div class="border-t border-border p-5">
-          ${step.tip ? `<div class="bg-primary/[0.06] border border-primary/25 rounded-[10px] px-3.5 py-2.5 text-[13px] text-primary/85 mb-4"><strong>Atenção:</strong> ${step.tip}</div>` : ""}
-          ${step.tasks.length ? `
-            <div class="mb-1">
-              ${step.tasks.map(t => `
-                <div class="flex items-start gap-2.5 py-[7px] text-[13.5px] text-muted-foreground border-b border-white/[0.04] last:border-b-0">
-                  <span class="w-[5px] h-[5px] rounded-full bg-primary opacity-50 mt-[7px] shrink-0"></span>
-                  <span>${t}</span>
-                </div>
-              `).join("")}
-            </div>
-          ` : ""}
-          ${step.type === "download" ? renderDownloadBlock() : ""}
-          ${step.type === "whatsapp" ? renderWhatsappBlock() : ""}
-          ${step.type === "default" && step.video ? videoBlock(step.id + "-video", step.video.label, step.video.url) : ""}
-          <button class="step-mark-btn w-full mt-4 py-2.5 rounded-[10px] font-display text-xs font-bold uppercase transition-all ${isDone ? "bg-transparent border border-border text-muted-foreground" : "bg-primary/10 border border-primary/25 text-primary hover:bg-primary hover:text-primary-foreground"}" data-step-id="${step.id}">
-            ${isDone ? "Desmarcar etapa" : "Marcar como concluída"}
-          </button>
-        </div>
+        <button class="choice ${apiChoice === "nao" ? "selected" : ""}" data-choice="nao">
+          <div class="choice-name">Não Oficial</div>
+          <div class="choice-desc">Conexão via QR Code, sem aprovação da Meta</div>
+        </button>
       </div>
     </div>
-  `;
+    ${apiChoice ? `
+      <div class="block">
+        <p class="section-label">3. Siga o passo a passo de configuração</p>
+        ${videoBlock("api-" + apiChoice, API_VIDEOS[apiChoice].label, API_VIDEOS[apiChoice].url)}
+      </div>` : ""}`;
 }
 
-function progressSteps() {
-  return STEPS.filter(s => s.id !== "step-0");
+/* ---------- render ---------- */
+function renderRail() {
+  document.getElementById("rail-list").innerHTML = STEPS.map((s, i) => {
+    const isDone = done.has(s.id);
+    const isActive = s.id === activeStepId;
+    return `
+      <button class="rail-item ${isDone ? "done" : ""} ${isActive ? "active" : ""}" data-step="${s.id}">
+        <span class="rail-dot">${isDone ? ICONS.check("#0b0b0b", 12) : (i + 1)}</span>
+        <span class="rail-title">${esc(s.title)}</span>
+      </button>`;
+  }).join("");
+
+  const count = STEPS.filter(s => done.has(s.id)).length;
+  document.getElementById("rail-done").textContent = count;
+  document.getElementById("rail-total").textContent = STEPS.length;
+  document.getElementById("progress-fill").style.width = (count / STEPS.length * 100) + "%";
+  document.getElementById("done-banner").classList.toggle("show", count === STEPS.length);
+}
+
+function renderPanel() {
+  const step = STEPS[activeIndex()];
+  const isDone = done.has(step.id);
+
+  let html = `
+    <div class="panel-badge">Passo ${activeIndex() + 1} de ${STEPS.length}</div>
+    <h2 class="panel-title">${esc(step.title)}</h2>`;
+
+  if (step.notice) {
+    html += `<div class="notice">${ICONS.alert}<div><b>Atenção:</b> ${esc(step.notice)}</div></div>`;
+  }
+
+  if (step.tasks.length) {
+    html += `<div class="block">
+      <p class="section-label">O que fazer</p>
+      <div class="tasks">
+        ${step.tasks.map((t, i) => {
+          const key = step.id + "::" + i;
+          const checked = checkedTasks.has(key);
+          return `<div class="task ${checked ? "checked" : ""}" data-task="${key}">
+            <span class="task-box">${checked ? ICONS.check("#0b0b0b", 12) : ""}</span>
+            <span class="task-text">${esc(t)}</span>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>`;
+  }
+
+  if (step.block === "download") html += downloadBlock();
+  if (step.block === "api") html += apiBlock();
+  if (step.video) html += videoBlock(step.id + "-video", step.video.label, step.video.url);
+
+  document.getElementById("panel-content").innerHTML = html;
+
+  const toggleBtn = document.getElementById("btn-toggle");
+  toggleBtn.textContent = isDone ? "Desmarcar etapa" : "Marcar como concluída";
+  toggleBtn.className = "btn " + (isDone ? "btn-ghost" : "btn-primary");
+
+  document.getElementById("btn-prev").disabled = activeIndex() === 0;
+
+  const nextBtn = document.getElementById("btn-next");
+  const isLast = activeIndex() === STEPS.length - 1;
+  nextBtn.textContent = isLast ? "Voltar ao início" : "Próximo passo";
 }
 
 function render() {
-  const container = document.getElementById("steps-container");
-  container.innerHTML = STEPS.map((s, i) => renderStep(s, i)).join("");
-
-  const pSteps = progressSteps();
-  const doneCount = pSteps.filter(s => done.has(s.id)).length;
-  const total = pSteps.length;
-  const pct = Math.round((doneCount / total) * 100);
-
-  document.getElementById("stat-count").textContent = doneCount;
-  document.getElementById("stat-pct").textContent = pct + "%";
-  document.getElementById("aside-count").textContent = `${doneCount} de ${total} passos concluídos`;
-  document.getElementById("ring-aside-pct").textContent = pct + "%";
-
-  const circumference = 2 * Math.PI * 42;
-  const offset = circumference - (pct / 100) * circumference;
-  document.getElementById("ring-main").style.strokeDashoffset = offset;
-  document.getElementById("ring-aside").style.strokeDashoffset = offset;
-
-  const nextStep = pSteps.find(s => !done.has(s.id));
-  const nextTitleEl = document.getElementById("next-step-title");
-  if (nextStep) {
-    nextTitleEl.textContent = nextStep.title;
-  } else {
-    nextTitleEl.textContent = "Tudo concluído!";
-  }
-
-  const celebration = document.getElementById("celebration");
-  if (doneCount === total) {
-    celebration.classList.remove("hidden");
-  } else {
-    celebration.classList.add("hidden");
-  }
-
-  attachEvents();
+  renderRail();
+  renderPanel();
 }
 
-function attachEvents() {
-  document.querySelectorAll(".step-header").forEach(el => {
-    el.addEventListener("click", (e) => {
-      const id = el.dataset.stepId;
-      openStepId = openStepId === id ? null : id;
-      render();
-      if (openStepId) {
-        setTimeout(() => {
-          document.querySelector(`[data-step-id="${id}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 50);
-      }
-    });
-  });
-
-  document.querySelectorAll(".step-toggle-done").forEach(el => {
-    el.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleDone(el.dataset.stepId);
-    });
-  });
-
-  document.querySelectorAll(".step-mark-btn").forEach(el => {
-    el.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleDone(el.dataset.stepId);
-    });
-  });
-
-  document.querySelectorAll(".video-toggle").forEach(el => {
-    el.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const id = el.dataset.videoId;
-      if (openVideoIds.has(id)) openVideoIds.delete(id);
-      else openVideoIds.add(id);
-      render();
-    });
-  });
-
-  document.querySelectorAll(".wa-choice").forEach(el => {
-    el.addEventListener("click", (e) => {
-      e.stopPropagation();
-      whatsappChoice = el.dataset.choice;
-      render();
-    });
-  });
-}
-
-function goToNextStep() {
-  const pSteps = progressSteps();
-  const nextStep = pSteps.find(s => !done.has(s.id));
-  if (nextStep) {
-    openStepId = nextStep.id;
-    render();
-    setTimeout(() => {
-      document.querySelector(`[data-step-id="${nextStep.id}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 50);
-  }
-}
-document.getElementById("next-step-btn").addEventListener("click", goToNextStep);
-
-function toggleDone(id) {
-  if (done.has(id)) done.delete(id);
-  else done.add(id);
-  save();
+/* ---------- ações ---------- */
+function setActive(id) {
+  activeStepId = id;
   render();
 }
+
+function toggleDone() {
+  const id = activeStepId;
+  if (done.has(id)) done.delete(id);
+  else done.add(id);
+  persist();
+  render();
+}
+
+function goPrev() {
+  const i = activeIndex();
+  if (i > 0) setActive(STEPS[i - 1].id);
+}
+
+function goNext() {
+  const i = activeIndex();
+  setActive(i === STEPS.length - 1 ? STEPS[0].id : STEPS[i + 1].id);
+}
+
+/* ---------- eventos (delegação: bind único, nunca duplica) ---------- */
+document.getElementById("rail-list").addEventListener("click", e => {
+  const item = e.target.closest(".rail-item");
+  if (item) setActive(item.dataset.step);
+});
+
+document.getElementById("panel-content").addEventListener("click", e => {
+  const video = e.target.closest("[data-video]");
+  if (video) {
+    const key = video.dataset.video;
+    if (openVideos.has(key)) openVideos.delete(key);
+    else openVideos.add(key);
+    renderPanel();
+    return;
+  }
+
+  const choice = e.target.closest("[data-choice]");
+  if (choice) {
+    apiChoice = choice.dataset.choice;
+    renderPanel();
+    return;
+  }
+
+  const task = e.target.closest("[data-task]");
+  if (task) {
+    const key = task.dataset.task;
+    if (checkedTasks.has(key)) checkedTasks.delete(key);
+    else checkedTasks.add(key);
+    renderPanel();
+  }
+});
+
+document.getElementById("btn-toggle").addEventListener("click", toggleDone);
+document.getElementById("btn-prev").addEventListener("click", goPrev);
+document.getElementById("btn-next").addEventListener("click", goNext);
 
 render();
 </script>
