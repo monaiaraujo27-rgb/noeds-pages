@@ -493,7 +493,7 @@
   <div class="topbar">
     <img src="assets/logo-noeds.jpeg" alt="Noeds" />
     <span class="divider"></span>
-    <span class="eyebrow">Onboarding</span>
+    <span class="eyebrow">Implementação de CRM</span>
   </div>
 
   <h1 class="page-title">Checklist de ativação</h1>
@@ -561,7 +561,7 @@ const STEPS = [
     tasks: [
       "Escolher o dispositivo e baixar pelo botão correspondente",
       "Instalar o aplicativo ou programa",
-      "Fazer login com o usuário e senha recebidos por e-mail"
+      "Fazer login com o usuário e senha recebidos por e-mail (ou WhatsApp, se configurado)"
     ],
     block: "download",
     video: null
@@ -571,7 +571,7 @@ const STEPS = [
     title: "Configurações da empresa no CRM",
     notice: null,
     tasks: [
-      "Inserir nome da empresa e logo",
+      "Inserir nome da empresa",
       "Ajustar o idioma da plataforma para português",
       "Adicionar endereço e telefone da empresa",
       "Criar usuários da equipe e definir permissões"
@@ -635,7 +635,6 @@ const STEPS = [
       "Configurar o gatilho de entrada: lead chegou via anúncio",
       "Criar o contato automaticamente no CRM",
       "Mover o lead para a primeira etapa do funil",
-      "Enviar mensagem imediata de boas-vindas no WhatsApp",
       "Notificar o vendedor responsável pelo atendimento"
     ],
     block: null,
@@ -648,7 +647,8 @@ const STEPS = [
     tasks: [
       "Adaptar a cadência de follow up para a realidade da sua empresa",
       "Definir os intervalos entre cada tentativa de contato",
-      "Encerrar a cadência automaticamente quando o lead responder"
+      "Encerrar a cadência automaticamente quando o lead responder",
+      "Tag \"Em atendimento\": confirma que a automação parou de enviar"
     ],
     block: null,
     video: { label: "Assista: configurando o follow-up automático", url: "https://vimeo.com/1187185426" }
@@ -659,7 +659,6 @@ const STEPS = [
     notice: null,
     tasks: [
       "Definir o tempo-alvo de primeira resposta para cada canal",
-      "Criar a automação de alerta quando o prazo for estourado",
       "Acompanhar o tempo de resposta por vendedor",
       "Revisar os indicadores periodicamente com a equipe"
     ],
