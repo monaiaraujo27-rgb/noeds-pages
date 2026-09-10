@@ -540,7 +540,7 @@
       <h4>Precisa de ajuda?</h4>
       <p>Nossa equipe acompanha você em qualquer etapa da ativação.</p>
     </div>
-    <a class="btn btn-primary" href="https://wa.me/5532987199347?text=Preciso%20de%20suporte%20da%20Noeds" target="_blank" rel="noopener noreferrer">
+    <a class="btn btn-primary" href="https://wa.me/5532987199347?text=Ol%C3%A1!%20Preciso%20de%20suporte.%0A%0APor%20favor%2C%20descreva%20sua%20d%C3%BAvida%20e%20envie%20um%20print%20do%20erro%20ou%20o%20nome%20do%20contato%20onde%20ocorreu%20o%20problema." target="_blank" rel="noopener noreferrer">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="#0b0b0b"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.5.2-.7.2-1.4.2-1.5-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2z"/></svg>
       Abrir suporte
     </a>
@@ -577,7 +577,7 @@ const STEPS = [
       "Criar usuários da equipe e definir permissões"
     ],
     block: null,
-    video: { label: "Assista: configurações iniciais do CRM", url: "https://vimeo.com/1180564230" }
+    video: { label: "Assista: configurações iniciais do CRM", url: "https://youtu.be/yj0d8GAUSYk" }
   },
   {
     id: "meta",
@@ -625,7 +625,7 @@ const STEPS = [
       "Lançamentos internos: como usar o CRM em campanhas pontuais"
     ],
     block: null,
-    video: null
+    video: { label: "Assista: conversas e tags no CRM", url: "https://www.youtube.com/watch?v=s9xXbVZIhLk" }
   },
   {
     id: "automacao-leads",
@@ -668,10 +668,8 @@ const STEPS = [
 ];
 
 const DOWNLOAD_LINKS = [
-  { group: "Celular", sub: "iOS", label: "iPhone — App Store", icon: "apple", url: "https://apps.apple.com/br/app/highlevel/id1425004076" },
-  { group: "Celular", sub: "Android", label: "Google Play", icon: "android", url: "https://play.google.com/store/apps/details?id=com.gohighlevel" },
-  { group: "Desktop", sub: "macOS", label: "Computador Apple", icon: "apple", url: "https://link.sendlink.co/qr/gYo_NCUnk1Z8" },
-  { group: "Desktop", sub: "Windows", label: "Computador PC", icon: "windows", url: "https://link.sendlink.co/qr/zMxfI6bZgNJ5" }
+  { group: "Celular", sub: "iOS", label: "iPhone — App Store", icon: "apple", url: "https://apps.apple.com/app/id1564302502" },
+  { group: "Celular", sub: "Android", label: "Google Play", icon: "android", url: "https://play.google.com/store/apps/details?id=com.LeadConnector" }
 ];
 
 const API_VIDEOS = {
@@ -700,9 +698,12 @@ function activeIndex() {
   return STEPS.findIndex(s => s.id === activeStepId);
 }
 
-function getVimeoEmbedUrl(url) {
-  const m = url.match(/vimeo\.com\/(\d+)/);
-  return m ? `https://player.vimeo.com/video/${m[1]}?autoplay=1` : "";
+function getEmbedUrl(url) {
+  const vimeo = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}?autoplay=1`;
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([\w-]+)/);
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}?autoplay=1`;
+  return "";
 }
 
 function esc(str) {
@@ -732,7 +733,7 @@ function videoBlock(key, label, url) {
           <div class="video-hint">${open ? "Clique para fechar" : "Clique para assistir"}</div>
         </div>
       </div>
-      ${open ? `<div class="video-frame"><iframe src="${getVimeoEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>` : ""}
+      ${open ? `<div class="video-frame"><iframe src="${getEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>` : ""}
     </div>`;
 }
 
