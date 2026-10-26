@@ -351,7 +351,8 @@
     overflow: hidden;
     background: #000;
   }
-  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-frame iframe,
+  .video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
 
   .block { margin-bottom: 26px; }
   .block:last-of-type { margin-bottom: 0; }
@@ -676,7 +677,10 @@ const STEPS = [
       "Notificar o vendedor responsável pelo atendimento"
     ],
     block: null,
-    video: { label: "Assista: automação de entrada de lead", url: "https://vimeo.com/1187177105" }
+    videos: [
+      { label: "Assista: automação de entrada de lead", url: "https://vimeo.com/1187177105" },
+      { label: "Assista: automação de novos leads, parte 2", url: "https://assets.cdn.filesafe.space/uwSW963fJIpTmYKvBCoW/media/6a75e2f09994d35aa0be1f1e.mp4" }
+    ]
   },
   {
     id: "follow-up",
@@ -744,6 +748,10 @@ function activeIndex() {
   return STEPS.findIndex(s => s.id === activeStepId);
 }
 
+function isDirectVideo(url) {
+  return /\.(mp4|webm|mov)(\?.*)?$/i.test(url);
+}
+
 function getEmbedUrl(url) {
   const vimeo = url.match(/vimeo\.com\/(\d+)/);
   if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}?autoplay=1`;
@@ -781,7 +789,9 @@ function videoBlock(key, label, url) {
           <div class="video-hint">${open ? "Clique para fechar" : "Clique para assistir"}</div>
         </div>
       </div>
-      ${open ? `<div class="video-frame"><iframe src="${getEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>` : ""}
+      ${open ? `<div class="video-frame">${isDirectVideo(url)
+        ? `<video src="${esc(url)}" controls autoplay playsinline preload="metadata"></video>`
+        : `<iframe src="${getEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`}</div>` : ""}
     </div>`;
 }
 
