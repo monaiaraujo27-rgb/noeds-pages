@@ -614,7 +614,7 @@ const STEPS = [
   },
   {
     id: "disparo-api-nao-oficial",
-    title: "Disparo via API Não Oficial",
+    title: "Disparo via API Não Oficial e Contato",
     notice: null,
     tasks: [
       "Configurar a lista de contatos para o disparo",
@@ -622,7 +622,10 @@ const STEPS = [
       "Iniciar e acompanhar o disparo em tempo real"
     ],
     block: null,
-    video: { label: "Assista: como fazer disparo pela API Não Oficial", url: "https://vimeo.com/1225761862" }
+    videos: [
+      { label: "Assista: como fazer disparo pela API Não Oficial", url: "https://vimeo.com/1225761862" },
+      { label: "Assista: contatos no CRM", url: "https://drive.google.com/file/d/18uwveMSAqqjZTC7Ld6BXQZ6SkJzWz9lx/view" }
+    ]
   },
   {
     id: "usar-crm",
@@ -723,6 +726,8 @@ function getEmbedUrl(url) {
   if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}?autoplay=1`;
   const yt = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([\w-]+)/);
   if (yt) return `https://www.youtube.com/embed/${yt[1]}?autoplay=1`;
+  const drive = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
+  if (drive) return `https://drive.google.com/file/d/${drive[1]}/preview`;
   return "";
 }
 
@@ -849,7 +854,10 @@ function renderPanel() {
 
   if (step.block === "download") html += downloadBlock();
   if (step.block === "api") html += apiBlock();
-  if (step.video) html += videoBlock(step.id + "-video", step.video.label, step.video.url);
+  const stepVideos = step.videos || (step.video ? [step.video] : []);
+  stepVideos.forEach((v, i) => {
+    html += videoBlock(step.id + "-video" + (i ? "-" + (i + 1) : ""), v.label, v.url);
+  });
 
   document.getElementById("panel-content").innerHTML = html;
 
