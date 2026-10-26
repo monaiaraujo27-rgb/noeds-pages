@@ -209,6 +209,14 @@
     color: var(--foreground);
   }
 
+  .panel-desc {
+    margin: -10px 0 22px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+    max-width: 62ch;
+  }
+
   .notice {
     display: flex; gap: 11px;
     background: rgba(138, 255, 69, 0.06);
@@ -514,7 +522,7 @@
     <nav class="rail">
       <div class="progress-head">
         <span class="progress-label">Progresso</span>
-        <span class="progress-count"><b id="rail-done">0</b> de <span id="rail-total">11</span></span>
+        <span class="progress-count"><b id="rail-done">0</b> de <span id="rail-total">12</span></span>
       </div>
       <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
       <div id="rail-list" class="rail-list"></div>
@@ -626,6 +634,21 @@ const STEPS = [
       { label: "Assista: como fazer disparo pela API Não Oficial", url: "https://vimeo.com/1225761862" },
       { label: "Assista: contatos no CRM", url: "https://drive.google.com/file/d/18uwveMSAqqjZTC7Ld6BXQZ6SkJzWz9lx/view" }
     ]
+  },
+  {
+    id: "leads",
+    title: "Leads",
+    description: "Veja como os leads entram no CRM, onde ficam no funil e como acompanhar cada um, para que nenhum contato fique parado sem responsável.",
+    notice: null,
+    tasks: [
+      "Cadastrar um lead manualmente ou importar uma lista de leads",
+      "Conferir se o lead entrou na etapa correta do funil",
+      "Preencher origem, interesse e responsável pelo lead",
+      "Aplicar as tags de origem e status",
+      "Registrar o primeiro contato e agendar o próximo retorno"
+    ],
+    block: null,
+    video: { label: "Assista: leads no CRM", url: "https://drive.google.com/file/d/1ATKR958StxDu9k--MKeVlFtTjX6zVipx/view" }
   },
   {
     id: "usar-crm",
@@ -831,6 +854,10 @@ function renderPanel() {
   let html = `
     <div class="panel-badge">Passo ${activeIndex() + 1} de ${STEPS.length}</div>
     <h2 class="panel-title">${esc(step.title)}</h2>`;
+
+  if (step.description) {
+    html += `<p class="panel-desc">${esc(step.description)}</p>`;
+  }
 
   if (step.notice) {
     html += `<div class="notice">${ICONS.alert}<div><b>Atenção:</b> ${esc(step.notice)}</div></div>`;
