@@ -354,6 +354,73 @@
   .video-frame iframe,
   .video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
 
+  /* guia ilustrado */
+  .guide { display: flex; flex-direction: column; gap: 14px; }
+  .g-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .g-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .g-num {
+    width: 24px; height: 24px; flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--primary); color: var(--primary-foreground);
+    font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700;
+    display: grid; place-items: center;
+  }
+  .g-title { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; }
+  .g-path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 14px; }
+  .g-chip {
+    background: var(--card-2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 9px; font-size: 12px;
+  }
+  .g-chip.last { border-color: var(--primary); color: var(--primary); background: var(--primary-dim); }
+  .g-sep { color: var(--muted-foreground); font-size: 12px; }
+  .g-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+  .g-list { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.55; }
+  .g-list li { margin-bottom: 7px; }
+  .g-list li::marker { color: var(--primary); }
+  .g-tip {
+    margin-top: 12px; padding: 8px 11px;
+    border-left: 2px solid var(--primary);
+    background: var(--primary-dim);
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px; color: var(--foreground);
+  }
+  .g-tip b { color: var(--primary); font-weight: 600; }
+  .g-fig { margin: 0; }
+  .g-fig img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; }
+  .g-cap { font-size: 10.5px; color: var(--muted-foreground); margin-top: 6px; text-align: center; }
+
+  /* telas esquemáticas */
+  .m-screen {
+    background: #0f0f0f; border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px;
+    font-size: 11px; color: var(--muted-foreground);
+  }
+  .m-dots { display: flex; gap: 4px; margin-bottom: 9px; }
+  .m-dots i { width: 7px; height: 7px; border-radius: 50%; background: #2a2a2a; display: block; }
+  .m-layout { display: flex; gap: 8px; }
+  .m-side { width: 42%; display: flex; flex-direction: column; gap: 4px; min-height: 190px; }
+  .m-item { padding: 5px 8px; border-radius: 6px; background: var(--card-2); color: var(--muted-foreground); }
+  .m-spacer { flex: 1; }
+  .m-main { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .m-line { height: 8px; border-radius: 4px; background: #1c1c1c; }
+  .m-line.w60 { width: 60%; } .m-line.w80 { width: 80%; }
+  .m-hl { outline: 1.5px solid var(--primary); background: var(--primary-dim); color: var(--primary); font-weight: 600; }
+  .m-h { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; color: var(--foreground); margin-bottom: 8px; }
+  .m-field { margin-bottom: 7px; }
+  .m-label { font-size: 10px; margin-bottom: 3px; display: block; }
+  .m-input { padding: 6px 8px; border-radius: 6px; background: var(--card-2); border: 1px solid var(--border); color: #6c6c66; }
+  .m-input.m-hl { color: var(--primary); }
+  .m-btn { display: inline-block; padding: 6px 11px; border-radius: 6px; background: #222; color: var(--foreground); font-weight: 600; }
+  .m-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
+  .m-user { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border-soft); }
+  .m-avatar { width: 18px; height: 18px; border-radius: 50%; background: #2a2a2a; flex-shrink: 0; }
+  .m-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
   .block { margin-bottom: 26px; }
   .block:last-of-type { margin-bottom: 0; }
 
@@ -457,6 +524,10 @@
   }
 
   /* ---------- responsivo ---------- */
+  @media (max-width: 700px) {
+    .g-body { grid-template-columns: 1fr; }
+  }
+
   @media (max-width: 900px) {
     .shell { padding: 24px 18px 48px; }
     .layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
@@ -585,8 +656,8 @@ const STEPS = [
       "Adicionar endereço e telefone da empresa",
       "Criar usuários da equipe e definir permissões"
     ],
-    block: null,
-    video: { label: "Assista: configurações iniciais do CRM", url: "https://youtu.be/yj0d8GAUSYk" }
+    block: "config-guide",
+    video: null
   },
   {
     id: "meta",
@@ -696,6 +767,62 @@ const API_VIDEOS = {
   nao:     { label: "Configuração WhatsApp Não Oficial", url: "https://vimeo.com/1180657148" }
 };
 
+/* ---------- guia ilustrado: configurações da empresa ----------
+   mock: "menu" | "form" | "idioma" | "usuarios"
+   Para trocar a ilustração esquemática por um print real, adicione
+   img: "assets/nome-do-print.png" no item (o print substitui o mock). */
+const CONFIG_GUIDE = [
+  {
+    title: "Abrir as configurações",
+    path: ["Menu lateral esquerdo", "Configurações", "Perfil da empresa"],
+    mock: "menu",
+    items: [
+      "No menu lateral esquerdo, vá até o fim da lista e clique em Configurações.",
+      "A primeira opção do menu de configurações é Perfil da empresa, e ela abre sozinha.",
+      "É nessa tela que ficam nome, telefone, endereço, fuso horário e idioma."
+    ],
+    tip: "Faça esta etapa no computador, pelo navegador, onde a tela é mais completa."
+  },
+  {
+    title: "Preencher os dados da empresa",
+    path: ["Configurações", "Perfil da empresa", "Informações gerais"],
+    mock: "form",
+    items: [
+      "Nome da empresa: o nome pelo qual seus clientes conhecem você. Ele pode aparecer nas mensagens automáticas.",
+      "E-mail e telefone: use os contatos oficiais da empresa, com DDD no telefone.",
+      "Endereço: digite o endereço completo do local de atendimento.",
+      "Fuso horário: escolha Brasília (GMT-3). As automações e campanhas enviam mensagens no horário definido aqui.",
+      "Clique em Atualizar informações para salvar."
+    ],
+    tip: "Depois de salvar, atualize a página (F5) e confira se os dados ficaram gravados."
+  },
+  {
+    title: "Trocar o idioma para português",
+    path: ["Configurações", "Perfil da empresa", "Idioma da plataforma"],
+    mock: "idioma",
+    items: [
+      "Role a tela até a parte de idioma, logo abaixo do fuso horário.",
+      "Em Idioma da plataforma, selecione Português.",
+      "Se existir o campo de idioma das mensagens enviadas (datas e valores), deixe também em português.",
+      "Atualize a página. Menus e botões passam a aparecer em português."
+    ],
+    tip: "Se o nome de algum menu deste guia estiver diferente na sua tela, o idioma provavelmente ainda está em inglês. Troque aqui e atualize."
+  },
+  {
+    title: "Criar usuários da equipe",
+    path: ["Configurações", "Usuários", "Adicionar usuário"],
+    mock: "usuarios",
+    items: [
+      "Em Configurações, abra Usuários (em alguns painéis o nome é Equipe).",
+      "Clique em Adicionar usuário.",
+      "Preencha nome, sobrenome, e-mail, telefone e senha. O e-mail é o login da pessoa.",
+      "Crie um usuário para cada pessoa. Sem login compartilhado, você vê quem respondeu cada conversa.",
+      "Em Permissões, libere só o que a função precisa. Quem atende leads precisa de Conversas, Contatos e Oportunidades. Configurações da empresa e exclusão de contatos ficam com o responsável."
+    ],
+    tip: "Se o sistema avisar que o e-mail já existe, use outro e-mail ou chame o suporte."
+  }
+];
+
 /* ---------- estado ---------- */
 let done = new Set();
 try {
@@ -760,6 +887,93 @@ function videoBlock(key, label, url) {
       ${open ? `<div class="video-frame">${isDirectVideo(url)
         ? `<video src="${esc(url)}" controls autoplay playsinline preload="metadata"></video>`
         : `<iframe src="${getEmbedUrl(url)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`}</div>` : ""}
+    </div>`;
+}
+
+function mockScreen(type) {
+  const dots = `<div class="m-dots"><i></i><i></i><i></i></div>`;
+  const field = (label, value, hl) => `
+    <div class="m-field">
+      <span class="m-label">${label}</span>
+      <div class="m-input ${hl ? "m-hl" : ""}">${value}</div>
+    </div>`;
+
+  if (type === "menu") {
+    return `<div class="m-screen">${dots}
+      <div class="m-layout">
+        <div class="m-side">
+          <div class="m-item">Painel</div>
+          <div class="m-item">Conversas</div>
+          <div class="m-item">Calendários</div>
+          <div class="m-item">Contatos</div>
+          <div class="m-item">Oportunidades</div>
+          <div class="m-spacer"></div>
+          <div class="m-item m-hl">Configurações</div>
+        </div>
+        <div class="m-main">
+          <div class="m-h">Perfil da empresa</div>
+          <div class="m-line w80"></div><div class="m-line"></div><div class="m-line w60"></div>
+          <div class="m-line w80"></div><div class="m-line"></div>
+        </div>
+      </div></div>`;
+  }
+
+  if (type === "form") {
+    return `<div class="m-screen">${dots}
+      <div class="m-h">Informações gerais</div>
+      ${field("Nome da empresa", "Nome da sua empresa", true)}
+      ${field("E-mail", "contato@suaempresa.com.br", false)}
+      ${field("Telefone", "(00) 00000-0000", true)}
+      ${field("Endereço", "Rua, número, bairro, cidade", true)}
+      ${field("Fuso horário", "Brasília (GMT-3)", true)}
+      <span class="m-btn">Atualizar informações</span>
+    </div>`;
+  }
+
+  if (type === "idioma") {
+    return `<div class="m-screen">${dots}
+      <div class="m-h">Perfil da empresa</div>
+      ${field("Fuso horário", "Brasília (GMT-3)", false)}
+      ${field("Idioma da plataforma", "Português", true)}
+      ${field("Idioma das mensagens enviadas", "Português", false)}
+      <div class="m-line w60"></div>
+    </div>`;
+  }
+
+  return `<div class="m-screen">${dots}
+    <div class="m-row"><div class="m-h" style="margin:0">Usuários</div><span class="m-btn m-hl">+ Adicionar usuário</span></div>
+    <div class="m-user"><span class="m-avatar"></span><div class="m-line w60" style="flex:1"></div></div>
+    <div class="m-user"><span class="m-avatar"></span><div class="m-line w80" style="flex:1"></div></div>
+    <div style="height:10px"></div>
+    <div class="m-2col">${field("Nome", "Nome", false)}${field("Sobrenome", "Sobrenome", false)}</div>
+    ${field("E-mail (login)", "pessoa@suaempresa.com.br", false)}
+    ${field("Permissões", "Conversas, Contatos, Oportunidades", true)}
+  </div>`;
+}
+
+function guideBlock(guide) {
+  return `
+    <div class="block">
+      <p class="section-label">Passo a passo ilustrado</p>
+      <div class="guide">
+        ${guide.map((g, i) => `
+          <div class="g-card">
+            <div class="g-head"><span class="g-num">${i + 1}</span><span class="g-title">${esc(g.title)}</span></div>
+            <div class="g-path">
+              ${g.path.map((p, j) => `${j ? '<span class="g-sep">›</span>' : ""}<span class="g-chip ${j === g.path.length - 1 ? "last" : ""}">${esc(p)}</span>`).join("")}
+            </div>
+            <div class="g-body">
+              <div>
+                <ul class="g-list">${g.items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+                ${g.tip ? `<div class="g-tip"><b>Dica:</b> ${esc(g.tip)}</div>` : ""}
+              </div>
+              <figure class="g-fig">
+                ${g.img ? `<img src="${esc(g.img)}" alt="${esc(g.title)}" loading="lazy">` : mockScreen(g.mock)}
+                ${g.img ? "" : `<figcaption class="g-cap">Ilustração esquemática. A sua tela pode ter pequenas diferenças.</figcaption>`}
+              </figure>
+            </div>
+          </div>`).join("")}
+      </div>
     </div>`;
 }
 
@@ -859,6 +1073,7 @@ function renderPanel() {
 
   if (step.block === "download") html += downloadBlock();
   if (step.block === "api") html += apiBlock();
+  if (step.block === "config-guide") html += guideBlock(CONFIG_GUIDE);
   const stepVideos = step.videos || (step.video ? [step.video] : []);
   stepVideos.forEach((v, i) => {
     html += videoBlock(step.id + "-video" + (i ? "-" + (i + 1) : ""), v.label, v.url);
